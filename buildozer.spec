@@ -264,7 +264,7 @@ android.sdk = 31
 #android.wakelock = False
 
 # (list) Android application meta-data to set (key=value format)
-#android.meta_data =
+android.meta_data = com.google.android.gms.version=12488000
 
 # (list) Android library project to add (will be added in the
 # project.properties automatically.)
@@ -274,7 +274,7 @@ android.sdk = 31
 #android.uses_library =
 
 # (str) Android logcat filters to use
-#android.logcat_filters = *:S python:D
+android.logcat_filters = *:S python:D
 
 # (bool) Android logcat only display log for activity's pid
 #android.logcat_pid_only = False
