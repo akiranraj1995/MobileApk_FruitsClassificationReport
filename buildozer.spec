@@ -2,7 +2,7 @@
 
 
 # (str) Title of your application
-title = FruitsClassificationApp
+title = Fruits_Classification_App
 
 # (str) Package name
 package.name = org.test.fruitsclassificationapp
