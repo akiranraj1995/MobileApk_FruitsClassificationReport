@@ -35,8 +35,8 @@ jobs:
       - name: Install Android SDK
         run: |
           wget https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip
-          unzip commandlinetools-linux-6858069_latest.zip -d $HOME/android-sdk-tools
-          export ANDROID_HOME=$HOME/android-sdk-tools
+          unzip commandlinetools-linux-6858069_latest.zip -d $HOME/expert/android-sdk-tools
+          export ANDROID_HOME=$HOME/exxpert/android-sdk-tools
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
           export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH  # Add to PATH for the rest of the steps
 
