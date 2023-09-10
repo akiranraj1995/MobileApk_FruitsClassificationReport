@@ -11,8 +11,8 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3.7.6]  # Specify the Python version you need
-        node-version: [16.x]   # Specify the Node.js version you need
+        python-version: [3.x]  # Specify the Python version you need
+        node-version: [16.x]      # Specify the Node.js version you need
 
     steps:
       - name: Set up Python
@@ -32,8 +32,14 @@ jobs:
         run: |
           echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_ENV
 
+      # Manually set up Android SDK here using shell commands
       - name: Install Android SDK
-        uses: wzieba/android-sdk-installer@v1
+        run: |
+          wget https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip
+          unzip commandlinetools-linux-6858069_latest.zip -d $HOME/android-sdk
+          export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+          echo "y" | sdkmanager --licenses
 
       - name: Cache Buildozer global directory
         uses: actions/cache@v2
@@ -43,9 +49,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ env.date }}-
             ${{ runner.os }}-
-
-      - name: Accept Android SDK Licenses
-        run: echo "y" | sdkmanager --licenses
 
       - name: Build with Buildozer
         uses: ArtemSBulgakov/buildozer-action@v1
