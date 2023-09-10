@@ -35,6 +35,9 @@ jobs:
             ${{ runner.os }}-${{ env.date }}-
             ${{ runner.os }}-
 
+      - name: Accept Android SDK Licenses
+        run: echo "y" | sdkmanager --licenses
+
       - name: Build with Buildozer
         uses: ArtemSBulgakov/buildozer-action@v1
         id: buildozer
