@@ -11,9 +11,9 @@ import numpy as np
 import tensorflow.lite as tflite
 from kivy.utils import platform
 from plyer import filechooser
+from memory_profiler import profile  # Import memory_profiler
 
 kivy.require("2.0.0")
-
 
 class ImageClassifierApp(App):
     def build(self):
@@ -55,6 +55,7 @@ class ImageClassifierApp(App):
         with open(path, "r") as file:
             return [line.strip() for line in file.readlines()]
 
+    @profile  # Use memory_profiler decorator to profile this function
     def predict_images_in_folder(self, instance):
         folder_path = self.folder_input.text
         if folder_path and os.path.exists(folder_path):
