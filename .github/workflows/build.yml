@@ -35,10 +35,10 @@ jobs:
       - name: Install Android SDK
         run: |
           wget https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip
-          unzip commandlinetools-linux-6858069_latest.zip -d $HOME/android-sdk
-          export ANDROID_HOME=$HOME/android-sdk
-          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
-          echo "y" | sdkmanager --licenses  # Use ANDROID_HOME environment variable
+          unzip commandlinetools-linux-6858069_latest.zip -d $HOME/android-sdk-tools
+          export ANDROID_HOME=$HOME/android-sdk-tools
+          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH  # Add to PATH for the rest of the steps
 
       - name: Cache Buildozer global directory
         uses: actions/cache@v2
