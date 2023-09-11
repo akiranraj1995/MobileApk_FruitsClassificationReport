@@ -38,7 +38,8 @@ version = 1.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3, hostpython3, kivy==2.0.0, pillow, tensorflow ,plyer, memory-profiler
+requirements = python3, kivy, tensorflow, pillow, plyer, memory-profiler, hostpython3, plyer
+#requirements = python3, hostpython3, kivy==2.0.0, pillow, tensorflow ,plyer, memory-profiler
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -78,7 +79,7 @@ osx.kivy_version = 1.9.1
 fullscreen = 0
 
 # (str) Permissions
-android.permissions=READ_EXTERNAL_STORAGE
+#android.permissions= READ_EXTERNAL_STORAGE, INTERNET
 
 # (string) Presplash background color (for android toolchain)
 # Supported formats are: #RRGGBB #AARRGGBB or one of the following names:
@@ -99,19 +100,19 @@ android.permissions=READ_EXTERNAL_STORAGE
 
 # (list) Permissions
 # (See https://python-for-android.readthedocs.io/en/latest/buildoptions/#build-options-1 for all the supported syntaxes and properties)
-#android.permissions = android.permission.INTERNET, (name=android.permission.WRITE_EXTERNAL_STORAGE;maxSdkVersion=18)
+android.permissions = READ_EXTERNAL_STORAGE,android.permission.INTERNET, (name=android.permission.WRITE_EXTERNAL_STORAGE;maxSdkVersion=18)
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
 
 # (int) Target Android API, should be as high as possible.
-android.api = 32
+#android.api = 
 
 # (int) Minimum API your APK / AAB will support.
 #android.minapi = 21
 
 # (int) Android SDK version to use
-android.sdk = 32
+#android.sdk = 
 
 # (str) Android NDK version to use
 #android.ndk = 23b
@@ -274,7 +275,7 @@ android.sdk = 32
 #android.uses_library =
 
 # (str) Android logcat filters to use
-#android.logcat_filters = *:S python:D
+android.logcat_filters = *:S python:D
 
 # (bool) Android logcat only display log for activity's pid
 #android.logcat_pid_only = False
