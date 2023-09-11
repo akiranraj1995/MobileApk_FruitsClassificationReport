@@ -6,44 +6,42 @@ on:
       - master
 
 jobs:
-  build:
-    runs-on: ubuntu-latest  # Use the latest available Ubuntu version
 
-    strategy:
-      matrix:
-        node-version: [16.x]  # Specify the Node.js version you need
+  build:
+
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
 
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
-      - name: Get Date
-        run: |
-          echo "date=$(date -u "+%Y%m%d")" >> $GITHUB_ENV
+    - name: Set up Node.js  
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
 
-      - name: Cache Buildozer global directory
-        uses: actions/cache@v2
-        with:
-          path: .buildozer_global
-          key: buildozer-global-${{ hashFiles('buildozer.spec') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ env.date }}-
-            ${{ runner.os }}-
+    - name: Get Date
+      run: |
+        echo "date=$(date -u "+%Y%m%d")" >> $GITHUB_ENV
 
-      - name: Build with Buildozer
-        uses: ArtemSBulgakov/buildozer-action@v1
-        id: buildozer
-        with:
-          command: buildozer android debug
-          buildozer_version: stable
+    - name: Cache Buildozer global directory  
+      uses: actions/cache@v3
+      with:
+        path: .buildozer_global
+        key: buildozer-global-${{ hashFiles('buildozer.spec') }}
+        restore-keys: |
+          ${{ runner.os }}-${{ env.date }}-
+          ${{ runner.os }}-
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: package
-          path: ${{ steps.buildozer.outputs.filename }}
+    - name: Build with Buildozer
+      uses: ArtemSBulgakov/buildozer-action@v1 
+      with:
+        command: buildozer android debug
+        buildozer_version: stable
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: package
+        path: ${{ steps.buildozer.outputs.filename }}
+
