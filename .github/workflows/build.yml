@@ -11,17 +11,11 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3.7.6]  # Specify the Python version you need
-        node-version: [16.x]      # Specify the Node.js version you need
+        node-version: [18.x]
 
     steps:
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v2  # Use the latest version of setup-node
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -31,14 +25,6 @@ jobs:
       - name: Get Date
         run: |
           echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_ENV
-
-      - name: Install Android SDK
-        run: |
-          wget https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip
-          unzip commandlinetools-linux-6858069_latest.zip -d $HOME/expert/android-sdk-tools
-          export ANDROID_HOME=$HOME/exxpert/android-sdk-tools
-          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
-          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH  # Add to PATH for the rest of the steps
 
       - name: Cache Buildozer global directory
         uses: actions/cache@v2
