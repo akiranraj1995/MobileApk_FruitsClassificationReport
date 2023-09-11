@@ -7,15 +7,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest  # Use the latest available Ubuntu version
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [14.x]  # Specify the Node.js version you need
 
     steps:
       - name: Set up Node.js
-        uses: actions/setup-node@v2  # Use the latest version of setup-node
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -24,7 +24,7 @@ jobs:
 
       - name: Get Date
         run: |
-          echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_ENV
+          echo "date=$(date -u "+%Y%m%d")" >> $GITHUB_ENV
 
       - name: Cache Buildozer global directory
         uses: actions/cache@v2
