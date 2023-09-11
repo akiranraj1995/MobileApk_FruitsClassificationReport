@@ -6,42 +6,43 @@ on:
       - master
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
 
-    - name: Set up Node.js  
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16.x
+      - name: Get Date
+        run: |
+          echo "date=$(date -u "+%Y%m%d")" >> $GITHUB_ENV
 
-    - name: Get Date
-      run: |
-        echo "date=$(date -u "+%Y%m%d")" >> $GITHUB_ENV
+      - name: Cache Buildozer global directory
+        uses: actions/cache@v3
+        with:
+          path: .buildozer_global
+          key: buildozer-global-${{ hashFiles('buildozer.spec') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.date }}-
+            ${{ runner.os }}-
 
-    - name: Cache Buildozer global directory  
-      uses: actions/cache@v3
-      with:
-        path: .buildozer_global
-        key: buildozer-global-${{ hashFiles('buildozer.spec') }}
-        restore-keys: |
-          ${{ runner.os }}-${{ env.date }}-
-          ${{ runner.os }}-
+      - name: Build with Buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
+        with:
+          command: buildozer android debug
+          buildozer_version: stable
 
-    - name: Build with Buildozer
-      uses: ArtemSBulgakov/buildozer-action@v1 
-      with:
-        command: buildozer android debug
-        buildozer_version: stable
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: package
+          path: ${{ steps.buildozer.outputs.filename }}
 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: package
-        path: ${{ steps.buildozer.outputs.filename }}
-
+      - name: Remove invalid git config
+        run: |
+          git config --global --unset http.https://github.com/.extraheader
