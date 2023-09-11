@@ -38,8 +38,7 @@ version = 1.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3, hostpython3, kivy==2.0.0, tensorflow, pillow
-#requirements = python3, hostpython3, kivy==2.0.0, pillow, tensorflow ,plyer, memory-profiler
+requirements = kivy==2.0.0, tensorflow, pillow
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -106,7 +105,7 @@ android.permissions = READ_EXTERNAL_STORAGE,android.permission.INTERNET, (name=a
 #android.features = android.hardware.usb.host
 
 # (int) Target Android API, should be as high as possible.
-#android.api = 
+android.api = 31
 
 # (int) Minimum API your APK / AAB will support.
 #android.minapi = 21
