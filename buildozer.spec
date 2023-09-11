@@ -38,7 +38,7 @@ version = 1.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3==3.7.6,hostpython3==3.7.6,kivy,pillow
+requirements = python3, hostpython3, kivy==2.0.0, pillow, tensorflow ,plyer, memory-profiler
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
