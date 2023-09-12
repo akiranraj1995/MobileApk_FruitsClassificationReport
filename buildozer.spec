@@ -2,7 +2,7 @@
 
 
 # (str) Title of your application
-title = FruitsClassificationApp
+title = Fruits_Classification_App
 
 # (str) Package name
 package.name = org.test.fruitsclassificationapp
@@ -38,7 +38,7 @@ version = 1.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy==2.1.0,pillow,kivy_garden,tensorflow
+requirements = python3==3.7.6,kivy==2.1.0,pillow,kivy_garden,tensorflow==2.5.0,tflite,tf-nightly
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -94,9 +94,8 @@ fullscreen = 0
 #icon.adaptive_foreground.filename = %(source.dir)s/data/icon_fg.png
 #icon.adaptive_background.filename = %(source.dir)s/data/icon_bg.png
 
-# (list) Permissions
 # (See https://python-for-android.readthedocs.io/en/latest/buildoptions/#build-options-1 for all the supported syntaxes and properties)
-android.permissions = android.permission.READ_EXTERNAL_STORAGE,android.permission.INTERNET, (name=android.permission.WRITE_EXTERNAL_STORAGE;maxSdkVersion=18)
+android.permissions = android.permission.READ_EXTERNAL_STORAGE, android.permission.INTERNET, android.permission.WRITE_EXTERNAL_STORAGE:maxSdkVersion=18
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
