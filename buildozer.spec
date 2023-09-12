@@ -38,7 +38,7 @@ version = 1.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3==3.7.6,hostpython3==3.7.6,kivy==2.0.0,pillow,kivy_garden,tensorflow==2.9.3,tflite
+requirements = python3==3.7.6,hostpython3==3.7.6,kivy==2.0.0,pillow,kivy_garden,tensorflow==2.9.3,tflite,gradle==7.4.1
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -101,10 +101,10 @@ android.permissions = android.permission.READ_EXTERNAL_STORAGE, android.permissi
 #android.features = android.hardware.usb.host
 
 # (int) Target Android API, should be as high as possible.
-android.api = 31
+#android.api = 33
 
 # (int) Minimum API your APK / AAB will support.
-android.minapi = 21
+#android.minapi = 21
 
 # (int) Android SDK version to use
 #android.sdk = 
@@ -201,7 +201,7 @@ android.minapi = 21
 #android.add_resources =
 
 # (list) Gradle dependencies to add
-android.gradle_dependencies = 'com.android.tools.build:gradle:8.3'
+android.gradle_dependencies = 'com.android.tools.build:gradle:7.4.1'
 
 # (bool) Enable AndroidX support. Enable when 'android.gradle_dependencies'
 # contains an 'androidx' package, or any package from Kotlin source.
