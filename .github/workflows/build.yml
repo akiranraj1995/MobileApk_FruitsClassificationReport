@@ -7,23 +7,27 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [18.x]
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2  # Use the latest version of setup-node
         with:
-          node-version: 16.x
+          node-version: ${{ matrix.node-version }}
+
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Get Date
         run: |
-          echo "date=$(date -u "+%Y%m%d")" >> $GITHUB_ENV
+          echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_ENV
 
       - name: Cache Buildozer global directory
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: .buildozer_global
           key: buildozer-global-${{ hashFiles('buildozer.spec') }}
@@ -33,16 +37,13 @@ jobs:
 
       - name: Build with Buildozer
         uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
         with:
           command: buildozer android debug
           buildozer_version: stable
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: package
           path: ${{ steps.buildozer.outputs.filename }}
-
-      - name: Remove invalid git config
-        run: |
-          git config --global --unset http.https://github.com/.extraheader
