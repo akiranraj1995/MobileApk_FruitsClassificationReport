@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3==3.10.10,hostpython3,kivy==2.2.1,pillow,android,kivy-garden,numpy,tensorflow-lite,pyjnius==1.5.0
+requirements = python3==3.10.10, hostpython3==3.10.10, kivy==2.2.1, pillow, android, kivy-garden, numpy, tensorflow, pyjnius==1.5.0
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
