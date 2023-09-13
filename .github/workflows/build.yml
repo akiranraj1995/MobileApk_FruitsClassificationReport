@@ -1,4 +1,4 @@
-name: Build Android APK and Handle Gradle Errors
+name: CI
 
 on:
   push:
