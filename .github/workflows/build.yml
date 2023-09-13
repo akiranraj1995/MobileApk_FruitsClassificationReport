@@ -6,13 +6,9 @@ on:
       - master
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-    
     steps:
-    
     - uses: actions/checkout@v2
     
     - name: Set up Python
@@ -30,6 +26,13 @@ jobs:
       run: |
         buildozer android update sdk --no-ui
         buildozer android update ndk --no-ui
+        
+    - name: Install Android Build Tools
+      run: |
+        sdkmanager "platforms;android-30"
+        sdkmanager "build-tools;30.0.3"
+      env:
+        ACCEPT_LICENSES: "android-sdk-preview-license=.+|android-sdk-license=.+"
         
     - name: Build Android APK
       run: buildozer -v android debug
