@@ -1,4 +1,4 @@
-name: CI
+name: Build Android APK and Handle Gradle Errors
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Set up Node.js
-        uses: actions/setup-node@v2  # Use the latest version of setup-node
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -35,6 +35,10 @@ jobs:
             ${{ runner.os }}-${{ env.date }}-
             ${{ runner.os }}-
 
+      - name: Make Gradlew Executable
+        run: |
+          chmod +x /github/workspace/.buildozer/android/platform/build-armeabi-v7a/dists/myapp/gradlew
+
       - name: Build with Buildozer
         uses: ArtemSBulgakov/buildozer-action@v1
         id: buildozer
@@ -45,5 +49,19 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: package
+          name: my-android-app-${{ env.date }}
           path: ${{ steps.buildozer.outputs.filename }}
+
+      - name: Upload artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: failed-my-android-app-${{ env.date }}
+          path: ${{ steps.buildozer.outputs.filename }}
+
+      - name: Handle Gradle Errors
+        if: failure()
+        run: |
+          # Handle Gradle build failure here, you can add specific actions to take on failure.
+          # For example, sending a notification or reporting the error.
+          echo "Gradle build failed. Add your error handling steps here."
