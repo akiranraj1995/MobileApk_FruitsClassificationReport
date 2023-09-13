@@ -1,4 +1,4 @@
-name: Build Android APK
+name: CI
 
 on:
   push:
@@ -7,46 +7,43 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.7
-        
-    - name: Install Cython
-      run: pip install Cython
-      
-    - name: Install Buildozer  
-      run: pip install buildozer
-    
-    - name: Update NDK/SDK
-      run: |
-        buildozer android update sdk --no-ui
-        buildozer android update ndk --no-ui
-        
-    - name: Install Android Build Tools
-      run: |
-        sdkmanager "platforms;android-30"
-        sdkmanager "build-tools;30.0.3"
-      env:
-        ACCEPT_LICENSES: "android-sdk-preview-license=.+|android-sdk-license=.+"
-        
-    - name: Build Android APK
-      run: buildozer -v android debug
-        
-    - name: Upload APK Artifact
-      if: ${{ failure() }}  
-      uses: actions/upload-artifact@v2
-      with:
-        name: app-debug
-        path: ./bin/myapp-0.1-debug.apk
-              
-    - name: Upload Log Artifact
-      if: ${{ failure() }}
-      uses: actions/upload-artifact@v2
-      with:
-        name: build-logs
-        path: .buildozer/android/platform/build.log
+      - name: Set up Node.js
+        uses: actions/setup-node@v2  # Use the latest version of setup-node
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get Date
+        run: |
+          echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_ENV
+
+      - name: Cache Buildozer global directory
+        uses: actions/cache@v2
+        with:
+          path: .buildozer_global
+          key: buildozer-global-${{ hashFiles('buildozer.spec') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.date }}-
+            ${{ runner.os }}-
+
+      - name: Build with Buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
+        with:
+          command: buildozer android debug
+          buildozer_version: stable
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: ${{ steps.buildozer.outputs.filename }}
