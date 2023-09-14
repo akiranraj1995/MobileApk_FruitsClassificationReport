@@ -1,6 +1,5 @@
 import os
 import kivy
-import pkg_resources
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -11,23 +10,24 @@ from PIL import Image as PILImage
 import numpy as np
 import tensorflow.lite as tflite
 from kivy.utils import platform
+from kivy.resources import resource_find  # Added for asset access
 from plyer import filechooser
 from kivy.uix.scrollview import ScrollView
 from kivy.graphics import Color, Rectangle
 
 kivy.require("2.0.0")
 
-
 class ImageClassifierApp(App):
     def build(self):
         self.title = "Fruits Image Classification App"
 
         # Load labels from APK assets
-        self.labels = self.load_labels("labels.txt")
+        labels_path = resource_find("assets/labels.txt")  # Updated asset access
+        self.labels = self.load_labels(labels_path)
 
         # Load model from APK assets
-        model_content = pkg_resources.resource_string(__name__, "GaiApp_Epoch10.tflite")
-        self.model = tflite.Interpreter(model_content=model_content)
+        model_path = resource_find("assets/GaiApp_Epoch10.tflite")  # Updated asset access
+        self.model = tflite.Interpreter(model_path=model_path)
         self.model.allocate_tensors()
 
         # Use a ScrollView to make the UI scrollable
@@ -68,8 +68,8 @@ class ImageClassifierApp(App):
 
     def load_labels(self, path):
         try:
-            # Access file from APK assets
-            return pkg_resources.resource_string(__name__, path).decode().splitlines()
+            with open(path, "r") as file:
+                return file.read().splitlines()
         except FileNotFoundError:
             return []
 
@@ -151,7 +151,6 @@ class ImageClassifierApp(App):
         if selection:
             folder_path = selection[0]
             self.folder_input.text = folder_path
-
 
 if __name__ == "__main__":
     ImageClassifierApp().run()
